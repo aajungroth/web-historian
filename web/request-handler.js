@@ -24,8 +24,9 @@ exports.handleRequest = function (req, res) {
         res.writeHead(res.statusCode, serveAssets.headers);
         res.end();
       } else {
-        res.setHeader('Content-Type', 'text/plain');
-        res.statusCode = 200;
+        // res.setHeader('Content-Type', 'text/plain');
+        // res.statusCode = 200;
+        res.writeHead(200);
         res.write(data);
         res.end();
       }
@@ -40,9 +41,10 @@ exports.handleRequest = function (req, res) {
         res.writeHead(res.statusCode, serveAssets.headers);
         res.end();
       } else {
-        res.setHeader('Content-Type', 'text/plain');
-        res.statusCode = 200;
+        // res.setHeader('Content-Type', 'text/plain');
+        // res.statusCode = 200;
         // console.log('data', data);
+        res.writeHead(200);
         res.write(data);
         res.end();
       }
