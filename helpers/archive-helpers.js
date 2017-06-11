@@ -76,7 +76,7 @@ exports.downloadUrls = function(urls) {
   _.each(urls, function (url) {
     if (!url) { return; }
     request('http://' + url).pipe(fs.createWriteStream(exports.paths.archivedSites + '/' + url));
-  });  
+  });
 
   // // iterate over each url in urls
   //   // check if isUrlArchived is falsy
