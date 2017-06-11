@@ -1,7 +1,7 @@
 var path = require('path');
 var archive = require('../helpers/archive-helpers');
 // require more modules/folders here!
-var serveAssets = require('./http-helpers');
+var helpers = require('./http-helpers');
 // var headers = require('http-helpers');
 var fs = require('fs');
 var url = require('url');
@@ -47,6 +47,29 @@ exports.handleRequest = function (req, res) {
         res.writeHead(200);
         res.write(data);
         res.end();
+      }
+    });
+  } else if (req.method === 'POST') {
+    // check using isUrlInList if req.url is in sites.text
+    archive.isURlInList(req.url, function(found) {
+      // if not in sites.text
+      if (!found) {
+        // add to sites.text using addUrlToList
+        archive.addUrlToList(req.url, function() {
+
+        });
+      // if in sites.text
+      } else {
+        // check if in sites directory using isUrlArchived
+        archive.isUrlArchived(req.url, function(exists) {
+          // if not
+          if (!exists) {
+            // serve loading.html
+          }
+          // if is archivedSites
+            // parse out the url from file path in file system
+            // serve file?
+        });
       }
     });
   }
