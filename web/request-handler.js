@@ -12,23 +12,29 @@ exports.handleRequest = function (req, res) {
   var parsedUrl = url.parse(req.url);
   console.log('parsedUrl at line 13: ', parsedUrl);
   var pathName = parsedUrl.pathname;
+  console.log('pathName: ', pathName);
   var fsArchive = archive.paths.archivedSites;
   if (req.url === '/' && req.method === 'GET') {
      // serve up static file (index.html or loading.html)
      // parse url of req object
     // var requestedurl = url.parse(req.url); // expects '/'
-    pathName = pathName + 'public/index.html';
+    pathName = pathName.slice(1) + '/public/index.html';
+    console.log('pathName for index.html condition: ', pathName);
     fs.readFile(__dirname + pathName, function(err, data) {
+      console.log('__dirname + pathName: ', __dirname + pathName);
       if (err) {
-        res.statusCode = 404;
-        res.writeHead(res.statusCode, serveAssets.headers);
-        res.end();
+        // res.statusCode = 404;
+        // res.writeHead(res.statusCode, helpers.headers);
+        // res.end();
+        helpers.send404(res);
       } else {
         // res.setHeader('Content-Type', 'text/plain');
         // res.statusCode = 200;
-        res.writeHead(200);
-        res.write(data);
-        res.end();
+        // res.writeHead(200);
+        // res.write(data);
+        // res.end();
+        helpers.sendResponse(res, data);
+        helpers.sendRedirect(res, pathName);
       }
     });
   } else if (req.method === 'GET') {
@@ -37,16 +43,19 @@ exports.handleRequest = function (req, res) {
     fs.readFile(fsArchive + '/' + pathName, function(err, data) {
       if (err) {
         // console.log('error in GET');
-        res.statusCode = 404;
-        res.writeHead(res.statusCode, helpers.headers);
-        res.end();
+        // res.statusCode = 404;
+        // res.writeHead(res.statusCode, helpers.headers);
+        // res.end();
+        helpers.send404(res);
       } else {
         // res.setHeader('Content-Type', 'text/plain');
         // res.statusCode = 200;
         // console.log('data', data);
-        res.writeHead(200);
-        res.write(data);
-        res.end();
+        // res.writeHead(200);
+        // res.write(data);
+        // res.end();
+        helpers.sendResponse(res, data);
+        helpers.sendRedirect(res, '/loading.html');
       }
     });
   } else if (req.method === 'POST') {
